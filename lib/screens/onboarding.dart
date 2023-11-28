@@ -20,7 +20,7 @@ class onboarding extends StatelessWidget {
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: Text('Lorem Ipsum is simply \ndummy',
+              child: Text('Jelajahi dunia dengan \nDevicemu',
                   style: GoogleFonts.manrope(
                     fontWeight: FontWeight.w800,
                     fontSize: 26,
@@ -30,7 +30,7 @@ class onboarding extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: Text(
-                'Lorem Ipsum is simply dummy text of \nthe printing and typesetting industry.',
+                'Aplikasi Berita terfavorit di seluruh dunia \nketahui apa yang terjadi diseluruh dunia.',
                 style: GoogleFonts.manrope(
                   fontSize: 17,
                 ),
@@ -63,7 +63,7 @@ class onboarding extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.only(right: 20),
                   child: ElevatedButton(
-                    onPressed: () {Navigator.pushNamed(context, '/Home');} ,
+                    onPressed: () {Navigator.pushNamed(context, '/login');} ,
                     style: ElevatedButton.styleFrom(
                       primary: Colors.blue, // Warna latar belakang
                       onPrimary: Colors.white, // Warna teks
@@ -72,7 +72,7 @@ class onboarding extends StatelessWidget {
                             BorderRadius.circular(6.0), // Border radius
                       ),
                     ),
-                    child: Text('hayuk'),
+                    child: Text('Next'),
                   ),
                 ),
               ],

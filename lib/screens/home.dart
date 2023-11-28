@@ -1,9 +1,14 @@
 import 'package:feather_icons/feather_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/models/article_model.dart';
-import 'package:flutter_application_1/models/content.dart';
+import 'package:flutter_application_1/screens/latest.dart';
+import 'package:flutter_application_1/screens/trending.dart';
 import 'package:flutter_application_1/services/api_services.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
+import 'package:flutter/src/widgets/container.dart';
+import 'package:flutter/src/widgets/framework.dart';
+
 
 var kategori = [
   "All",
@@ -16,7 +21,7 @@ var kategori = [
 ];
 
 var kategoriselected = 0;
-
+var a = 10;
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -27,8 +32,14 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   ApiService client = ApiService();
+  ApiEverything client2 = ApiEverything();
   @override
   Widget build(BuildContext context) {
+    String? email = ModalRoute.of(context)?.settings.arguments as String?;
+
+    if (email == null) {
+      email = 'Guest';
+    }
     return Scaffold(
         body: SafeArea(
           child: SingleChildScrollView(
@@ -37,7 +48,7 @@ class _HomeState extends State<Home> {
                 const SizedBox(
                   height: 32,
                 ),
-                _header(),
+                _header(email),
                 const SizedBox(
                   height: 12,
                 ),
@@ -54,10 +65,10 @@ class _HomeState extends State<Home> {
                   height: 16,
                 ),
                 _latest(),
-                const SizedBox(
-                  height: 16,
-                ),
-                _categories(),
+                // const SizedBox(
+                //   height: 16,
+                // ),
+                // _categories(),
                 const SizedBox(height: 16),
                 _content(),
                 const SizedBox(height: 50),
@@ -65,169 +76,105 @@ class _HomeState extends State<Home> {
             ),
           ),
         ),
-        bottomNavigationBar: BottomNavigationBar(
-          selectedItemColor: Colors.blue.shade800,
-          unselectedItemColor: Colors.black,
-          showSelectedLabels: true,
-          showUnselectedLabels: true,
-          type: BottomNavigationBarType
-              .fixed, // Mengatur tata letak label berada di samping ikon
-          items: const [
-            BottomNavigationBarItem(
-              icon: Padding(
-                padding: EdgeInsets.only(bottom: 6.0),
-                child: Icon(
-                  FeatherIcons.home,
-                ),
-              ),
-              label: 'Home',
-            ),
-            BottomNavigationBarItem(
-              icon: Padding(
-                padding: EdgeInsets.only(bottom: 6.0),
-                child: Icon(FeatherIcons.messageSquare),
-              ),
-              label: 'Explore',
-            ),
-            BottomNavigationBarItem(
-              icon: Padding(
-                padding: EdgeInsets.only(bottom: 6.0),
-                child: Icon(FeatherIcons.bookmark),
-              ),
-              label: 'Bookmark',
-            ),
-            BottomNavigationBarItem(
-              icon: Padding(
-                padding: EdgeInsets.only(bottom: 6.0),
-                child: Icon(FeatherIcons.user),
-              ),
-              label: 'Settings',
-            ),
-          ],
-        ));
+        );
   }
 
   Widget _content() {
     return FutureBuilder(
-        future: client.getArticle(),
-        builder: (BuildContext context, AsyncSnapshot<List<Article>> snapshot) {
-          if (snapshot.hasData) {
-            List<Article>? articles = snapshot.data;
-            return Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20),
-        child: SizedBox(
-          height: 150 * content.length.toDouble(),
-          child: ListView.separated(
-              physics: const NeverScrollableScrollPhysics(),
-              shrinkWrap: true,
-              itemBuilder: (context, index) => InkWell(
-                onTap: () => Navigator.pushNamed(context, '/detail',arguments: 
-                content[index]),
-                child: Container(
-                      child: Row(
-                        children: [
-                          Image.network(
-                            articles?[index].urlToImage ?? "https://www.recia.fr/wp-content/uploads/2019/09/no_image.png",
-                            width: 96,
-                            height: 96,
-                            fit: BoxFit.cover,
-                          ),
-                          const SizedBox(
-                            width: 10,
-                          ),
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  '${content[index].name}',
-                                  style: GoogleFonts.manrope(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w400,
-                                    color: Colors.blueGrey,
-                                  ),
-                                ),
-                                const SizedBox(
-                                  height: 8,
-                                ),
-                                Text(
-                                  '${content[index].title}',
-                                  style: GoogleFonts.manrope(
-                                    fontSize: 19,
-                                    fontWeight: FontWeight.w600,
-                                    color: Colors.black,
-                                  ),
-                                ),
-                                const SizedBox(
-                                  height: 8,
-                                ),
-                                Row(
+      future: client2.getArticle(),
+      builder: (BuildContext context, AsyncSnapshot<List<Article>> snapshot) {
+        if (snapshot.hasData) {
+          List<Article>? articles = snapshot.data;
+
+  
+          return Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: SizedBox(
+              height: 160 * a.toDouble(),
+              child: ListView.separated(
+                  physics: const NeverScrollableScrollPhysics(),
+                  shrinkWrap: true,
+                  itemBuilder: (context, index) { 
+
+                    return InkWell(
+                        onTap: () => Navigator.pushNamed(context, '/detail',
+                            arguments: articles![index]),
+                        child: Container(
+                          child: Row(
+                            children: [
+                              Image.network(
+                                articles![index].urlToImage ??
+                                    "https://www.recia.fr/wp-content/uploads/2019/09/no_image.png",
+                                width: 96,
+                                height: 96,
+                                fit: BoxFit.cover,
+                              ),
+                              const SizedBox(
+                                width: 10,
+                              ),
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Container(
-                                      child: Image.asset(
-                                          'assets/images/News Author.png'),
-                                    ),
-                                    const SizedBox(
-                                      width: 3,
-                                    ),
                                     Text(
-                                      'BBC News',
+                                        articles[index].publishedAt!,
                                       style: GoogleFonts.manrope(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.w700,
-                                        color: Colors.blueGrey,
-                                      ),
-                                    ),
-                                    const SizedBox(
-                                      width: 10,
-                                    ),
-                                    const Icon(
-                                      FeatherIcons.clock,
-                                      color: Colors.blueGrey,
-                                      size: 14,
-                                    ),
-                                    const SizedBox(
-                                      width: 3,
-                                    ),
-                                    Text(
-                                      '${content[index].time} hours ago',
-                                      style: GoogleFonts.manrope(
-                                        fontSize: 18,
+                                        fontSize: 16,
                                         fontWeight: FontWeight.w400,
                                         color: Colors.blueGrey,
                                       ),
                                     ),
-                                    const Spacer(),
-                                    Text('...',
+                                    const SizedBox(
+                                      height: 8,
+                                    ),
+                                    SizedBox(
+                                      child: Text(
+                                        articles![index].title ?? "null",
                                         style: GoogleFonts.manrope(
-                                          fontSize: 18,
-                                          fontWeight: FontWeight.w400,
-                                          color: Colors.blueGrey,
-                                        ))
+                                          fontSize: 19,
+                                          fontWeight: FontWeight.w600,
+                                          color: Colors.black,
+                                        ),
+                                      ),
+                                    ),
+                                    const SizedBox(
+                                      height: 8,
+                                    ),
+                                    Row(
+                                      children: [
+                                        SizedBox(
+                                          width: 200,
+                                          child: Text(
+                                            articles[index].author ?? "null",
+                                            style: GoogleFonts.manrope(
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.w700,
+                                              color: Colors.blueGrey,
+                                            ),
+                                            overflow: TextOverflow.ellipsis,
+                                          ),
+                                        ),
+                                      ],
+                                    )
                                   ],
-                                )
-                              ],
-                            ),
-                          )
-                        ],
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                      );},
+                  separatorBuilder: (context, index) => const SizedBox(
+                        height: 30,
                       ),
-                    ),
-              ),
-              separatorBuilder: (context, index) => const SizedBox(
-                    height: 30,
-                  ),
-              itemCount: 5),
-        ),
-      );
-            
-    }
-          
-          return const Center(
-            child: CircularProgressIndicator(),
+                  itemCount: 10),
+            ),
           );
-          
-        },
-      
+        }
+
+        return const Center(
+          child: CircularProgressIndicator(),
+        );
+      },
     );
   }
 
@@ -277,12 +224,18 @@ class _HomeState extends State<Home> {
                 fontWeight: FontWeight.w800,
                 color: const Color(0xff3f3e3f)),
           ),
-          Text(
-            'See all',
-            style: GoogleFonts.manrope(
-                fontSize: 20,
-                fontWeight: FontWeight.w200,
-                color: const Color(0xff3f3e3f)),
+          InkWell(
+            onTap: () {
+              Navigator.push(
+                  context, MaterialPageRoute(builder: (context) => latest()));
+            },
+            child: Text(
+              'See all',
+              style: GoogleFonts.manrope(
+                  fontSize: 20,
+                  fontWeight: FontWeight.w400,
+                  color: Colors.blue),
+            ),
           )
         ],
       ),
@@ -292,123 +245,93 @@ class _HomeState extends State<Home> {
   Widget _card(BuildContext context) {
     return FutureBuilder(
       future: client.getArticle(),
-        builder: (BuildContext context, AsyncSnapshot<List<Article>> snapshot) {
-          if (snapshot.hasData) {
-            List<Article>? articles = snapshot.data;
-            return Column(
-        children: [
-          AspectRatio(
-            aspectRatio: 364 / 183,
-            child: InkWell(
-              onTap: () => Navigator.pushNamed(context, '/detail',arguments: 
-                content[0]),
-              child: Container(
-                clipBehavior: Clip.hardEdge,
-                margin: const EdgeInsets.symmetric(horizontal: 20),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(7),
-                  color: const Color(0xff3f3e3f),
+      builder: (BuildContext context, AsyncSnapshot<List<Article>> snapshot) {
+        if (snapshot.hasData) {
+          List<Article>? articles = snapshot.data;
+          return Column(
+            children: [
+              AspectRatio(
+                aspectRatio: 364 / 183,
+                child: InkWell(
+                  onTap: () => Navigator.pushNamed(context, '/detail',
+                      arguments: articles?[0]),
+                  child: Container(
+                    clipBehavior: Clip.hardEdge,
+                    margin: const EdgeInsets.symmetric(horizontal: 20),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(7),
+                      color: const Color(0xff3f3e3f),
+                    ),
+                    child: Container(
+                      clipBehavior: Clip.none,
+                      child: Image.network(
+                        articles?[0].urlToImage ??
+                            "https://www.recia.fr/wp-content/uploads/2019/09/no_image.png",
+                         width: 269,
+                         height: 269,
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                  ),
                 ),
-                child: Stack(
+              ),
+              const SizedBox(
+                height: 8,
+              ),
+              Container(
+                width: double.infinity,
+                padding: const EdgeInsets.only(left: 20),
+
+              ),
+              const SizedBox(
+                height: 4,
+              ),
+              Container(
+                width: double.infinity,
+                padding: const EdgeInsets.only(left: 20),
+                child: Text(
+                  articles?[0].title ?? "null",
+                  style: GoogleFonts.manrope(
+                    fontSize: 19,
+                    fontWeight: FontWeight.w600,
+                    color: Colors.black,
+                  ),
+                  textAlign: TextAlign.left,
+                ),
+              ),
+              const SizedBox(
+                height: 4,
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: Row(
                   children: [
-                    Image.network(
-                      articles?[0].urlToImage ?? "https://www.recia.fr/wp-content/uploads/2019/09/no_image.png",
-                            width: 269,
-                            height: 269,
-                            fit: BoxFit.cover,
+                    SizedBox(
+                      width: 200,
+                      child: Text(
+                        articles?[0].author ?? "null",
+                        style: GoogleFonts.manrope(
+                          fontSize: 18,
+                          fontWeight: FontWeight.w700,
+                          color: Colors.blueGrey,
+                        ),
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 10,
                     ),
                   ],
                 ),
-              ),
-            ),
-          ),
-          const SizedBox(
-            height: 8,
-          ),
-          Container(
-            width: double.infinity,
-            padding: const EdgeInsets.only(left: 20),
-            child: Text(
-              "United State",
-              style: GoogleFonts.manrope(
-                fontSize: 16,
-                fontWeight: FontWeight.w400,
-                color: Colors.blueGrey,
-              ),
-              textAlign: TextAlign.left,
-            ),
-          ),
-          const SizedBox(
-            height: 4,
-          ),
-          Container(
-            width: double.infinity,
-            padding: const EdgeInsets.only(left: 20),
-            child: Text(
-              articles?[0].title ?? "null",
-              style: GoogleFonts.manrope(
-                fontSize: 19,
-                fontWeight: FontWeight.w600,
-                color: Colors.black,
-              ),
-              textAlign: TextAlign.left,
-            ),
-          ),
-          const SizedBox(
-            height: 4,
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: Row(
-              children: [
-                Text(
-                  articles?[0].author ?? "null",
-                  style: GoogleFonts.manrope(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w700,
-                    color: Colors.blueGrey,
-                  ),
-                ),
-                const SizedBox(
-                  width: 10,
-                ),
-                const Icon(
-                  FeatherIcons.clock,
-                  color: Colors.blueGrey,
-                  size: 14,
-                ),
-                const SizedBox(
-                  width: 3,
-                ),
-                Text(
-                  articles?[0].publishedAt ?? "waktu",
-                  style: GoogleFonts.manrope(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w400,
-                    color: Colors.blueGrey,
-                  ),
-                ),
-                const Spacer(),
-                Text('...',
-                    style: GoogleFonts.manrope(
-                      fontSize: 18,
-                      fontWeight: FontWeight.w400,
-                      color: Colors.blueGrey,
-                    ))
-              ],
-            ),
-          )
-        ],
-      );
-            
-          }
-          
-          return const Center(
-            child: CircularProgressIndicator(),
+              )
+            ],
           );
-          
-        },
-       
+        }
+
+        return const Center(
+          child: CircularProgressIndicator(),
+        );
+      },
     );
   }
 
@@ -425,12 +348,18 @@ class _HomeState extends State<Home> {
                 fontWeight: FontWeight.w800,
                 color: const Color(0xff3f3e3f)),
           ),
-          Text(
-            'See all',
-            style: GoogleFonts.manrope(
-                fontSize: 20,
-                fontWeight: FontWeight.w200,
-                color: const Color(0xff3f3e3f)),
+          InkWell(
+            onTap: () {
+              Navigator.push(
+                  context, MaterialPageRoute(builder: (context) => trending()));
+            },
+            child: Text(
+              'See all',
+              style: GoogleFonts.manrope(
+                  fontSize: 20,
+                  fontWeight: FontWeight.w400,
+                  color: Colors.blue),
+            ),
           )
         ],
       ),
@@ -451,14 +380,18 @@ class _HomeState extends State<Home> {
     );
   }
 
-  Padding _header() {
+  Padding _header(String email) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Image.asset('assets/images/Vector.png'),
-          IconButton(onPressed: () {}, icon: const Icon(FeatherIcons.bell))
+          Text("Welcome ${email}!",
+              style: GoogleFonts.manrope(
+                  fontSize: 20,
+                  fontWeight: FontWeight.w900,
+                  color: const Color(0xff3f3e3f))),
         ],
       ),
     );

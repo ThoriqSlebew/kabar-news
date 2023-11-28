@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "290688715852",
+    "project_id": "news-app-aab35",
+    "storage_bucket": "news-app-aab35.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:290688715852:android:0f998c7cd2f3ff6af578e9",
+        "android_client_info": {
+          "package_name": "com.example.coba_auth"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCPnatySSkNBxnRKxGTpswlYtM5v6KceDE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:290688715852:android:cf82c0bf0809b358f578e9",
+        "android_client_info": {
+          "package_name": "com.example.flutter_application_1"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCPnatySSkNBxnRKxGTpswlYtM5v6KceDE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

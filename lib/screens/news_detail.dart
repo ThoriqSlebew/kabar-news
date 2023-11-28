@@ -1,7 +1,8 @@
 import 'package:feather_icons/feather_icons.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/models/content.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter_application_1/models/article_model.dart';
+
 
 var kategori = [
   "All",
@@ -69,7 +70,7 @@ class news_detail extends StatelessWidget {
   const news_detail({super.key});
   @override
   Widget build(BuildContext context) {
-    final content = ModalRoute.of(context)!.settings.arguments as ContentModel;
+    final articles = ModalRoute.of(context)!.settings.arguments as Article;
     return Scaffold(
         body: SafeArea(
           child: SingleChildScrollView(
@@ -82,66 +83,42 @@ class news_detail extends StatelessWidget {
                 const SizedBox(
                   height: 12,
                 ),
-                _card(content),
+                _card(articles),
                 const SizedBox(
                   height: 16,
                 ),
-                _content(),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  child: Text(
+                    articles.content ?? "null",
+                    style: GoogleFonts.manrope(
+                          fontSize: 18,
+                          color: Colors.black,
+                        ),
+                  ),
+                ),
               ],
             ),
           ),
         ),
-        bottomNavigationBar: BottomNavigationBar(
-          items: [
-            _buildBottomNavigationBarItem(FeatherIcons.heart, '24.5K'),
-            _buildBottomNavigationBarItem(FeatherIcons.messageSquare, '1K'),
-            _buildEndBottomNavigationBarItem(FeatherIcons.bookmark, ''),
-          ],
-        ));
+        
+        );
   }
 
-  Padding _content() {
-    String longText = """
-    Ukrainian President Volodymyr Zelensky has accused European countries that continue to buy Russian oil of "earning their money in other people's blood".
 
-    In an interview with the BBC, President Zelensky singled out Germany and Hungary, accusing them of blocking efforts to embargo energy sales, from which Russia stands to make up to £250bn this year.
-
-    There has been a growing frustration among Ukraine's leadership with Berlin, which has backed some sanctions against Russia but so far resisted calls to back tougher action on oil sales.
-  """;
-
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20),
-      child: SizedBox(
-        height:1000,
-        child: ListView.separated(
-          physics:
-              const NeverScrollableScrollPhysics(), // Mengubah menjadi AlwaysScrollableScrollPhysics agar dapat di-scroll
-          shrinkWrap: true,
-          separatorBuilder: (context, index) => const SizedBox(height: 30),
-          itemCount: 6,
-          itemBuilder: (context, index) {
-            return Text(
-              longText, // Menampilkan teks panjang
-              textAlign: TextAlign.justify,
-              style: GoogleFonts.manrope(
-                fontSize: 18,
-                color: Colors.black,
-              ),
-            );
-          },
-        ),
-      ),
-    );
-  }
-
-  Column _card(ContentModel content) {
+  Column _card(Article articles) {
     return Column(
       children: [
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20),
           child: Row(
             children: [
-              Image.asset('assets/images/Ellipse.png'),
+              // Image.network(
+              //               content.urlToImage ?? "judul Tidak Ada",
+              //               width: 96,
+              //               height: 96,
+              //               fit: BoxFit.cover,
+              //             ),
               const SizedBox(
                 width: 5,
               ),
@@ -150,57 +127,20 @@ class news_detail extends StatelessWidget {
                   Column(
                     children: [
                       Text(
-                        'BBC News',
+                        articles.publishedAt ?? "tidak diketahui",
                         style: GoogleFonts.manrope(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
                           color: Colors.black,
                         ),
                       ),
-                      Row(
-                        children: [
-                          const Icon(
-                            FeatherIcons.clock,
-                            color: Colors.blueGrey,
-                            size: 14,
-                          ),
-                          SizedBox(
-                            width: 10,
-                          ),
-                          Text(
-                            '${content.time} hours ago',
-                            style: GoogleFonts.manrope(
-                              fontSize: 18,
-                              fontWeight: FontWeight.w400,
-                              color: Colors.blueGrey,
-                            ),
-                          ),
-                        ],
-                      ),
+                      
                     ],
                   ),
                 ],
               ),
               const Spacer(),
-              ElevatedButton(
-                onPressed: () {},
-                child: Text(
-                  'Following',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 18, // Atur ukuran huruf sesuai keinginan Anda
-                  ),
-                ),
-                style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all(Colors.blue),
-                  shape: MaterialStateProperty.all(
-                    RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(7.0),
-                    ),
-                  ),
-                  // Atur panjang dan lebar sesuai keinginan Anda
-                ),
-              )
+              
             ],
           ),
         ),
@@ -218,8 +158,7 @@ class news_detail extends StatelessWidget {
             ),
             child: Stack(
               children: [
-                Image.asset(
-                  'assets/images/${content.image}',
+                Image.network(articles.urlToImage ?? "judul Tidak Ada",
                   height: double.maxFinite,
                   width: double.maxFinite,
                   fit: BoxFit.cover,
@@ -235,7 +174,7 @@ class news_detail extends StatelessWidget {
           width: double.infinity,
           padding: const EdgeInsets.only(left: 20),
           child: Text(
-            '${content.name}',
+            articles.author ?? "null",
             style: GoogleFonts.manrope(
               fontSize: 16,
               fontWeight: FontWeight.w400,
@@ -251,7 +190,7 @@ class news_detail extends StatelessWidget {
           width: double.infinity,
           padding: const EdgeInsets.symmetric(horizontal: 20),
           child: Text(
-            '${content.title}',
+            '${articles.title}',
             style: GoogleFonts.manrope(
               fontSize: 28,
               fontWeight: FontWeight.w600,
@@ -276,8 +215,8 @@ class news_detail extends StatelessWidget {
               onPressed: () {Navigator.of(context).pop();}, icon: const Icon(FeatherIcons.arrowLeft)),
           Spacer(),
           IconButton(onPressed: () {}, icon: const Icon(FeatherIcons.share2)),
-          IconButton(
-              onPressed: () {}, icon: const Icon(FeatherIcons.moreVertical)),
+          // IconButton(
+          //     onPressed: () {}, icon: const Icon(FeatherIcons.moreVertical)),
         ],
       ),
     );

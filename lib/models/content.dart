@@ -1,40 +1,37 @@
+import 'package:flutter_application_1/models/source_model.dart';
+
 class ContentModel {
-  String name;
-  String image;
+  Source source;
+  String author;
   String title;
-  int time;
+  String description;
+  String url;
+  String urlToImage;
+  String publishedAt;
+  String content;
 
-  ContentModel(
-      {required this.name,
-      required this.image,
+  ContentModel({
+      required this.source,
+      required this.author,
       required this.title,
-      required this.time});
-}
+      required this.description,
+      required this.url,
+      required this.urlToImage,
+      required this.publishedAt,
+      required this.content,
+      });
 
-final List<ContentModel> content = [
-  ContentModel(
-      name: "Europa ",
-      image: "conten1.png",
-      title: "Ukraine's President Zelensky to BBC: Blood money being paid...",
-      time: 1),
-  ContentModel(
-      name: "Travel",
-      image: "conten2.png",
-      title: "Her train broke down. Her phone died.",
-      time: 4),
-  ContentModel(
-      name: "Europe",
-      image: "image1.jpg",
-      title: "Russian warship: Moskva sinks in Black Sea",
-      time: 8),
-  ContentModel(
-      name: "Money",
-      image: "image4.png",
-      title: "Wind power produced more electricity than coal and nucle...",
-      time: 14),
-  ContentModel(
-      name: "Life",
-      image: "image5.jpg",
-      title: "'We keep rising to new challenges:' For churches hit by",
-      time: 14),
-];
+
+factory ContentModel.fromJson(Map<String, dynamic> json){
+  return ContentModel(
+    source: Source.fromJson(json['source']), 
+    author: json ['author'], 
+    title: json['title'], 
+    description: json['description'],
+    url: json['url'],
+    urlToImage: json['urlToImage'], 
+    publishedAt: json['publishedAt'],
+    content: json['content'],
+    );
+  }
+} 
