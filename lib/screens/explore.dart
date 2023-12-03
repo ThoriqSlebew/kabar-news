@@ -68,9 +68,9 @@ class _ExploreState extends State<explore> {
               tabs: myTab,
             ),
           ),
-          body: Padding(
-            padding: const EdgeInsets.only(top: 20),
-            child: const TabBarView(
+          body: const Padding(
+            padding: EdgeInsets.only(top: 20),
+            child: TabBarView(
               children: [
                 explore_bussines(),
                 explore_health(),

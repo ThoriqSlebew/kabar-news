@@ -50,19 +50,19 @@ class _latestState extends State<latest> {
           return Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20),
             child: SizedBox(
-              height: 150 * articles!.length.toDouble(),
+              height: 150 * 10,
               child: ListView.separated(
                   physics: const NeverScrollableScrollPhysics(),
                   shrinkWrap: true,
                   itemBuilder: (context, index) => InkWell(
                         onTap: () => Navigator.pushNamed(context, '/detail',
-                            arguments: articles[index]),
+                            arguments: articles![index]),
                         child: Container(
                           child: Row(
                             children: [
                               Image.network(
-                                articles[index].urlToImage ??
-                                    "https://www.recia.fr/wp-content/uploads/2019/09/no_image.png",
+                                articles![index].urlToImage ??
+                                    "https://www.wfla.com/wp-content/uploads/sites/71/2023/05/GettyImages-1389862392.jpg?w=2560&h=1440&crop=1",
                                 width: 96,
                                 height: 96,
                                 fit: BoxFit.cover,
@@ -103,7 +103,7 @@ class _latestState extends State<latest> {
                                         SizedBox(
                                           width: 200,
                                           child: Text(
-                                            articles[index].author ?? "null",
+                                            articles![index].author ?? "null",
                                             style: GoogleFonts.manrope(
                                               fontSize: 18,
                                               fontWeight: FontWeight.w700,
@@ -124,7 +124,7 @@ class _latestState extends State<latest> {
                   separatorBuilder: (context, index) => const SizedBox(
                         height: 30,
                       ),
-                  itemCount: articles.length),
+                  itemCount: 10),
             ),
           );
         }

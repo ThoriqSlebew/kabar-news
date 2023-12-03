@@ -1,7 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:feather_icons/feather_icons.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/screens/login.dart';
+import 'package:flutter_application_1/services/firestore_services.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class profile extends StatefulWidget {
@@ -12,7 +14,7 @@ class profile extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<profile> {
-  FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseAuth _auth = FirebaseAuth.instance;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -23,16 +25,24 @@ class _ProfilePageState extends State<profile> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Padding(
-                padding: const EdgeInsets.all(20),
-                child: Text(
-                  "This Your Profile",
-                  style: GoogleFonts.manrope(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black,
-                  ),
+                padding: const EdgeInsets.only(top: 20),
+                child: Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Text('Explore',
+                            style: GoogleFonts.manrope(
+                              fontSize: 30,
+                              fontWeight: FontWeight.w700,
+                              color: Colors.blue,
+                            )),
+                      ],
+                    ),
+                  ],
                 ),
               ),
+              const SizedBox(height: 20),
               Container(
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
@@ -51,20 +61,52 @@ class _ProfilePageState extends State<profile> {
                       'assets/images/saya.jpg'), // Replace with your image path
                 ),
               ),
-              SizedBox(height: 20),
-              Text(
-                "Your Profile",
-                style: GoogleFonts.manrope(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black,
-                ),
-              ),
+              SizedBox(height: 10),
+              StreamBuilder(
+                  stream: Database.getData(),
+                  builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                    if (snapshot.hasData) {
+                      return SizedBox(
+                        height: 60,
+                        child: ListView.builder(
+                          itemCount: snapshot.data!.docs.length,
+                          itemBuilder: (context, index) {
+                          final DocumentSnapshot documentSnapshot =
+                              snapshot.data!.docs[index];
+                          return Column(
+                            children: [
+                              Text(
+                                documentSnapshot['username'],
+                                style: GoogleFonts.manrope(
+                                  fontSize: 25,
+                                  fontWeight: FontWeight.w700,
+                                  color: Colors.black,
+                                ),
+                              ),
+                              SizedBox(height: 10),
+                              Text(
+                                documentSnapshot['email'],
+                                style: GoogleFonts.manrope(
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.w400,
+                                  color: Colors.black,
+                                ),
+                              ),
+                            ],
+                          );
+                        }),
+                      );
+                    } else {
+                      return const Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    }
+                  }),
               SizedBox(height: 20),
               Divider(),
               InkWell(
                 onTap: () {
-                  // Action when edit profile button is pressed
+                  Navigator.pushNamed(context, '/editprofile');
                 },
                 child: Padding(
                   padding: const EdgeInsets.symmetric(vertical: 10),
@@ -88,7 +130,7 @@ class _ProfilePageState extends State<profile> {
               Divider(),
               InkWell(
                 onTap: () {
-                  // Action when edit profile button is pressed
+                  Navigator.pushNamed(context, '/about_us');
                 },
                 child: Padding(
                   padding: const EdgeInsets.symmetric(vertical: 10),

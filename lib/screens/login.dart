@@ -126,13 +126,7 @@ class _loginState extends State<login> {
                       SizedBox(
                         height: 5,
                       ),
-                      Row(
-                        children: [
-                          Spacer(),
-                          Text('Forgot the password?',
-                              style: GoogleFonts.manrope(color: Colors.blue))
-                        ],
-                      ),
+                      
                       SizedBox(
                         height: 10,
                       ),

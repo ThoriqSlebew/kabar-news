@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/firebase_options.dart';
+import 'package:flutter_application_1/screens/about.dart';
 import 'package:flutter_application_1/screens/explore.dart';
 import 'package:flutter_application_1/screens/explore_health.dart';
 import 'package:flutter_application_1/screens/explore_health.dart';
@@ -46,8 +47,9 @@ class MyApp extends StatelessWidget {
                 '/latest':(context) => const latest(),
                 '/profile':(context) => const profile(),
                 '/profile_detail':(context) => const profile_detail(),
-                // '/explore':(context) => const explore(),
+                '/editprofile':(context) => const profile_detail(),
                 '/explore_health':(context) => const explore_health(),
+                '/about_us':(context) => const about(),
 
               },
           );

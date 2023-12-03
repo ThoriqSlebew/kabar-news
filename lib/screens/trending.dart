@@ -30,7 +30,7 @@ class _trendingState extends State<trending> {
               ),
               SizedBox(height: 20,),
               SizedBox(
-                height:  1000,
+                height:  1200,
                 child: ListView.separated(
                   itemBuilder: (context, index) => _card(context, index), 
                   separatorBuilder: (context, index) {
@@ -73,7 +73,7 @@ class _trendingState extends State<trending> {
                       clipBehavior: Clip.none,
                       child: Image.network(
                         articles?[index].urlToImage ??
-                            "https://www.recia.fr/wp-content/uploads/2019/09/no_image.png",
+                            "https://www.wfla.com/wp-content/uploads/sites/71/2023/05/GettyImages-1389862392.jpg?w=2560&h=1440&crop=1",
                          width: 269,
                          height: 269,
                         fit: BoxFit.cover,

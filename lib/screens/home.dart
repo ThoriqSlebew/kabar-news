@@ -9,19 +9,11 @@ import 'package:intl/intl.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 
-
-var kategori = [
-  "All",
-  "Sports",
-  "Politics",
-  "Bussines",
-  "Health",
-  "Travel",
-  "Science"
-];
+ 
 
 var kategoriselected = 0;
 var a = 10;
+
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -33,6 +25,11 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   ApiService client = ApiService();
   ApiEverything client2 = ApiEverything();
+  TextEditingController searchController = TextEditingController();
+  List<Article> filteredData = [];
+
+  
+
   @override
   Widget build(BuildContext context) {
     String? email = ModalRoute.of(context)?.settings.arguments as String?;
@@ -52,10 +49,8 @@ class _HomeState extends State<Home> {
                 const SizedBox(
                   height: 12,
                 ),
-                _search(),
-                const SizedBox(
-                  height: 12,
-                ),
+                divider(),
+                //_search(),
                 _trending(),
                 const SizedBox(
                   height: 12,
@@ -79,14 +74,22 @@ class _HomeState extends State<Home> {
         );
   }
 
+  Padding divider() {
+    return const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 20),
+                child: Divider(
+                  thickness: 1,
+                  color: Colors.grey,
+                ),
+              );
+  }
+
   Widget _content() {
     return FutureBuilder(
       future: client2.getArticle(),
       builder: (BuildContext context, AsyncSnapshot<List<Article>> snapshot) {
         if (snapshot.hasData) {
           List<Article>? articles = snapshot.data;
-
-  
           return Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20),
             child: SizedBox(
@@ -104,7 +107,7 @@ class _HomeState extends State<Home> {
                             children: [
                               Image.network(
                                 articles![index].urlToImage ??
-                                    "https://www.recia.fr/wp-content/uploads/2019/09/no_image.png",
+                                    "https://www.wfla.com/wp-content/uploads/sites/71/2023/05/GettyImages-1389862392.jpg?w=2560&h=1440&crop=1",
                                 width: 96,
                                 height: 96,
                                 fit: BoxFit.cover,
@@ -178,39 +181,6 @@ class _HomeState extends State<Home> {
     );
   }
 
-  Padding _categories() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20),
-      child: SizedBox(
-        height: 25,
-        child: ListView.separated(
-            scrollDirection: Axis.horizontal,
-            itemBuilder: (context, index) => Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 10),
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(14),
-                      color: kategoriselected == index
-                          ? Colors.blue.shade600
-                          : Colors.grey.shade100),
-                  child: Text(
-                    kategori[index],
-                    style: GoogleFonts.manrope(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                      color: kategoriselected == index
-                          ? Colors.white
-                          : Colors.grey.shade900.withOpacity(.3),
-                    ),
-                  ),
-                ),
-            separatorBuilder: (context, index) => const SizedBox(
-                  width: 10,
-                ),
-            itemCount: kategori.length),
-      ),
-    );
-  }
-
   Padding _latest() {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -266,7 +236,7 @@ class _HomeState extends State<Home> {
                       clipBehavior: Clip.none,
                       child: Image.network(
                         articles?[0].urlToImage ??
-                            "https://www.recia.fr/wp-content/uploads/2019/09/no_image.png",
+                            "https://www.wfla.com/wp-content/uploads/sites/71/2023/05/GettyImages-1389862392.jpg?w=2560&h=1440&crop=1",
                          width: 269,
                          height: 269,
                         fit: BoxFit.cover,
@@ -374,7 +344,6 @@ class _HomeState extends State<Home> {
           border: OutlineInputBorder(),
           prefixIcon: Icon(FeatherIcons.search),
           hintText: 'Search',
-          suffixIcon: Icon(FeatherIcons.sliders),
         ),
       ),
     );
@@ -387,7 +356,7 @@ class _HomeState extends State<Home> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Image.asset('assets/images/Vector.png'),
-          Text("Welcome ${email}!",
+          Text("Welcome !",
               style: GoogleFonts.manrope(
                   fontSize: 20,
                   fontWeight: FontWeight.w900,

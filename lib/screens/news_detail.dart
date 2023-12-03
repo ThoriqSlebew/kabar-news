@@ -97,6 +97,15 @@ class news_detail extends StatelessWidget {
                         ),
                   ),
                 ),
+                SizedBox(
+                  height: 160,
+                ),
+                Text("Made with ❤️ by Thoriq Khoir",
+                  style: GoogleFonts.manrope(
+                    fontSize: 12,
+                    fontWeight: FontWeight.w200,
+                    color: Colors.black,
+                  )),
               ],
             ),
           ),
@@ -158,7 +167,7 @@ class news_detail extends StatelessWidget {
             ),
             child: Stack(
               children: [
-                Image.network(articles.urlToImage ?? "judul Tidak Ada",
+                Image.network(articles.urlToImage ?? "https://www.wfla.com/wp-content/uploads/sites/71/2023/05/GettyImages-1389862392.jpg?w=2560&h=1440&crop=1",
                   height: double.maxFinite,
                   width: double.maxFinite,
                   fit: BoxFit.cover,
@@ -202,6 +211,7 @@ class news_detail extends StatelessWidget {
         const SizedBox(
           height: 4,
         ),
+        
       ],
     );
   }
@@ -214,7 +224,8 @@ class news_detail extends StatelessWidget {
           IconButton(
               onPressed: () {Navigator.of(context).pop();}, icon: const Icon(FeatherIcons.arrowLeft)),
           Spacer(),
-          IconButton(onPressed: () {}, icon: const Icon(FeatherIcons.share2)),
+          IconButton(onPressed: ()  {
+          }, icon: const Icon(FeatherIcons.share2)),
           // IconButton(
           //     onPressed: () {}, icon: const Icon(FeatherIcons.moreVertical)),
         ],
